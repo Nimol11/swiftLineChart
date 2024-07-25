@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520A5EA32C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png in Resources */ = {isa = PBXBuildFile; fileRef = 520A5EA22C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png */; };
+		520A5EA52C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png in Resources */ = {isa = PBXBuildFile; fileRef = 520A5EA42C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png */; };
 		52E803B92C51019B0001D916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803B82C51019B0001D916 /* AppDelegate.swift */; };
 		52E803BD2C51019B0001D916 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803BC2C51019B0001D916 /* ViewController.swift */; };
 		52E803C02C51019B0001D916 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 52E803BF2C51019B0001D916 /* Base */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		520A5EA22C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-07-25 at 8.49.32 in the morning.png"; sourceTree = "<group>"; };
+		520A5EA42C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screenshot 2024-07-25 at 8.49.53 in the morning.png"; sourceTree = "<group>"; };
 		52E803B52C51019B0001D916 /* SwiftLineChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftLineChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E803B82C51019B0001D916 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52E803BC2C51019B0001D916 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,9 +55,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520A5EA12C51E68E000E3A8D /* image */ = {
+			isa = PBXGroup;
+			children = (
+				520A5EA22C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png */,
+				520A5EA42C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 		52E803AC2C51019B0001D916 = {
 			isa = PBXGroup;
 			children = (
+				520A5EA12C51E68E000E3A8D /* image */,
 				52E803B72C51019B0001D916 /* SwiftLineChart */,
 				52E803B62C51019B0001D916 /* Products */,
 			);
@@ -156,8 +170,10 @@
 			files = (
 				52E803DC2C510B900001D916 /* README.md in Resources */,
 				52E803C22C51019D0001D916 /* Assets.xcassets in Resources */,
+				520A5EA52C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png in Resources */,
 				52E803C52C51019D0001D916 /* Base in Resources */,
 				52E803C02C51019B0001D916 /* Base in Resources */,
+				520A5EA32C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

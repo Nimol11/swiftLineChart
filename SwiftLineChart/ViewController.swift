@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     private var verticalNumber = [ 25, 50, 75, 100, 125, 150, 175, 200,225, 250, 275, 300]
        private let horizontalNumber = ["00:00", "6:00", "12:00", "18:00", "24:00"]
        
-       private let textLabel = UILabel()
+      
        
        lazy var chartView: LineChartView = {
            let lineChart = LineChartView()
@@ -39,6 +39,7 @@ class ViewController: UIViewController {
            lineChart.dataSource = self
            lineChart.delegate = self
            lineChart.lineWidth = 1
+           lineChart.barLineValueColor = .red
            lineChart.translatesAutoresizingMaskIntoConstraints = false
            return lineChart
        }()

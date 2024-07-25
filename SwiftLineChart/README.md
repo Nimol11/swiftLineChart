@@ -13,7 +13,7 @@ let lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: 200, height: 100)
 ```
 :key: To initialize a line chart using storyboard 
 
-<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.27.19%20in%20the%20morning.png?raw=true" width = 400px />
+<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.32%20in%20the%20morning.png?raw=true" width = 400px />
 
 :key: Need to reload chart data 
 
@@ -108,5 +108,5 @@ var data: [ChartData] = [
 
 ## Result 
 
-<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.37.11%20in%20the%20morning.png?raw=true" width= 400px />
+<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.53%20in%20the%20morning.png?raw=true" width= 400px />
 

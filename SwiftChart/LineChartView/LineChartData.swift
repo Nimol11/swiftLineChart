@@ -9,6 +9,6 @@ import Foundation
 // MARK: Chart data
 public protocol LineChartData {
     associatedtype FloatingPoint
-    var xValue: String { get }
+    var xValue: FloatingPoint { get }
     var yValue: FloatingPoint { get }
 }

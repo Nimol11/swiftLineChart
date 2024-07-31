@@ -23,6 +23,8 @@ extension LineChartView {
         // Calculate min and max
         calculateSizes(dataSource)
         
+       
+        
         // Check if we can draw chart
         guard dataSource.numberOfItems(in: self) > 0 else {
             if let lineChartDidFailRender = delegate?.lineChartDidFailRender {
@@ -35,7 +37,7 @@ extension LineChartView {
         renderGroup.enter()
         drawAxis(dispatchQueue) { layer in
             DispatchQueue.main.async { [weak self] in
-                self?.layer.addSublayer(layer)
+                self?.layer.insertSublayer(layer, at: 0)
                 renderGroup.leave()
             }
         }
@@ -45,7 +47,7 @@ extension LineChartView {
             renderGroup.enter()
             drawVerticalGrid(dataSource, dispatchQueue) { layer in
                 DispatchQueue.main.async { [weak self] in
-                    self?.layer.addSublayer(layer)
+                    self?.layer.insertSublayer(layer, at: 1)
                     renderGroup.leave()
                 }
             }
@@ -56,7 +58,7 @@ extension LineChartView {
             renderGroup.enter()
             drawHorizontalGrid(dataSource, dispatchQueue) { layer in
                 DispatchQueue.main.async { [weak self] in
-                    self?.layer.addSublayer(layer)
+                    self?.layer.insertSublayer(layer, at: 1)
                     renderGroup.leave()
                 }
             }
@@ -67,7 +69,7 @@ extension LineChartView {
             renderGroup.enter()
             drawSideLabels(dataSource, dispatchQueue) { [weak self] textLayers in
                 for textLayer in textLayers {
-                    self?.layer.addSublayer(textLayer)
+                    self?.layer.insertSublayer(textLayer, at: 0)
                 }
                 renderGroup.leave()
             }
@@ -78,7 +80,7 @@ extension LineChartView {
             renderGroup.enter()
             drawBottomLabels(dataSource, dispatchQueue) { [weak self] textLayers in
                 for textLayer in textLayers {
-                    self?.layer.addSublayer(textLayer)
+                    self?.layer.insertSublayer(textLayer , at: 0)
                 }
                 renderGroup.leave()
             }
@@ -87,17 +89,70 @@ extension LineChartView {
         // Draw chart
         renderGroup.enter()
         drawChart(dataSource: dataSource,
-                  canvas: CGRect(x: showSideLabels ?  sideSpace : bounds.origin.x, y: bounds.origin.y ,
+                  canvas: CGRect(x: showSideLabels ?  sideSpace : bounds.origin.x, y: bounds.origin.y + headerSpace ,
                                  width: graphWidth, height: graphHeight ),
                   queue: dispatchQueue) { layer in
             DispatchQueue.main.async { [weak self] in
-                self?.layer.addSublayer(layer)
+                guard let self = self else { return }
+                self.layer.insertSublayer(layer, at: 1)
+
+               
+                renderGroup.leave()
+            }
+//
+           
+        }
+        // Draw Vertical Line point view
+        renderGroup.enter()
+        drawVerticalLinePointView(x: sideSpace, y: 40) { [weak self ] lineLayer in
+            DispatchQueue.main.async {
+                self?.lineLayerPoint = lineLayer
+                if let layer = self?.lineLayerPoint {
+                    self?.layer.insertSublayer(layer,at: 2)
+                    if self?.isHiddenLineBarValueOnRelease == true {
+                        layer.isHidden = true
+                    }
+                }
                 renderGroup.leave()
             }
         }
-        
+        renderGroup.enter()
+        drawYValuePointRotation(x: sideSpace, y: 15) { [weak self]  layer in
+            self?.yValueTextLayer = layer
+            if let layer = self?.yValueTextLayer {
+                self?.layer.insertSublayer(layer, at: 3)
+                renderGroup.leave()
+                if self?.isHiddenLineBarValueOnRelease == true {
+                    layer.isHidden = true
+                }
+            }
+        }
+        renderGroup.enter()
+        self.drawPointRotation(x: self.sideSpace - 5 ,y: 0) { [weak self] pointLayer in
+            DispatchQueue.main.async {
+                self?.pointRotationLayer = pointLayer
+                if let pointRotationLayer = self?.pointRotationLayer {
+                    self?.layer.insertSublayer(pointRotationLayer, above: self?.lineLayerPoint)
+                   
+                    renderGroup.leave()
+                    if self?.isHiddenLineBarValueOnRelease == true {
+                        pointRotationLayer.isHidden = true
+                    }
+                }
+            }
+        }
+        renderGroup.enter()
+        self.drawHeader { layer  in
+            DispatchQueue.main.async { [weak self ] in
+                guard let self = self else { return }
+                self.layer.insertSublayer(layer, at: 0)
+                
+                renderGroup.leave()
+            }
+        }
         // Wait for everything to draw
         renderGroup.notify(queue: .main) { completion() }
+        
     }
     
     
@@ -129,9 +184,35 @@ extension LineChartView {
     }
     
     fileprivate func removeLayers() {
-        layer.sublayers?.forEach({ layer in
+        self.layer.sublayers?.forEach({ layer in
             layer.removeFromSuperlayer()
         })
+    }
+  
+    //MARK: - Draw Header view
+    fileprivate func drawHeader(_ dispatchQueue: DispatchQueue = .init(label: "process_draw_header"),
+                                _ completion: @escaping(CALayer) -> Void) {
+        let tLayers = CALayer()
+        let label = CenterTextLayer()
+      
+        label.position = CGPoint(x: 0 , y: 0)
+        label.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
+        label.font = CGFont(UIFont.systemFont(ofSize: 13).fontName as NSString)
+        label.fontSize = 13
+        label.string = "V"
+        label.foregroundColor = self.labelsColor.cgColor
+        tLayers.addSublayer(label)
+        
+        self.headerText = CenterTextLayer()
+        headerText?.position = CGPoint(x: 0 , y: 0)
+        headerText?.frame = CGRect(x: graphWidth/2 - 100, y: 0, width: 200, height: 25)
+        headerText?.font = headerTextFont
+        headerText?.fontSize = headerTextFontSize
+        headerText?.alignmentMode = .center
+        headerText?.foregroundColor = self.headerTextColor.cgColor
+        tLayers.addSublayer(headerText ?? CenterTextLayer())
+        completion(tLayers)
+        
     }
     
     //MARK: - drawVerticalGrid
@@ -189,7 +270,7 @@ extension LineChartView {
                                         _ completion: @escaping (CALayer) -> Void) {
         
         let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self), dataSource.numberOfHorizontalLines(in: self))
-        let hSpace = graphHeight / CGFloat(numOfGrids)
+        let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
         let bounds = bounds
         
         dispatchQueue.async { [weak self, bounds] in
@@ -199,10 +280,8 @@ extension LineChartView {
             
             for index in 1..<numOfGrids + 1 {
                 drawGroup.enter()
-                
-              
                 if let dashPattern = dataSource.lineChart?(self , horizontalDashPatternAt: index) {
-                    self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0), y: self.graphHeight - (hSpace * CGFloat(index))),
+                    self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0) , y: self.graphHeight - (hSpace * CGFloat(index)) ),
                               to: CGPoint(x: self.graphWidth + (showSideLabels ? self.sideSpace : 0), y: self.graphHeight - (hSpace * CGFloat(index))),
                               frame: bounds,
                               color: self.gridColor,
@@ -212,8 +291,9 @@ extension LineChartView {
                         tLayer.addSublayer(layer)
                         drawGroup.leave()
                     }
+                
                 } else {
-                    self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0), y: self.graphHeight - (hSpace * CGFloat(index))),
+                    self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0), y: self.graphHeight - (hSpace * CGFloat(index)) ),
                               to: CGPoint(x: self.graphWidth + (showSideLabels ? self.sideSpace : 0), y: self.graphHeight - (hSpace * CGFloat(index))),
                               frame: bounds,
                               color: self.gridColor,
@@ -225,7 +305,6 @@ extension LineChartView {
                     }
                 }
             }
-            
             drawGroup.notify(queue: dispatchQueue) {
                 completion(tLayer)
             }
@@ -243,7 +322,7 @@ extension LineChartView {
             let drawGroup = DispatchGroup()
             if showVerticalLine { // line for vertical
                 drawGroup.enter()
-                self.line(from: CGPoint(x: self.graphWidth + sideSpace, y: 0),
+                self.line(from: CGPoint(x: self.graphWidth + sideSpace, y: headerSpace),
                           to: CGPoint(x: self.graphWidth + sideSpace, y: self.graphHeight),
                           frame: bounds,
                           color: self.gridColor,
@@ -253,10 +332,10 @@ extension LineChartView {
                     drawGroup.leave()
                 }
             }
-            if showHorizontalLine { // line fro horizontal
+            if showHorizontalLine { // line for horizontal
                 drawGroup.enter()
-                self.line(from: CGPoint(x: showSideLabels ? sideSpace : 0 , y: self.graphHeight),
-                          to: CGPoint(x: self.graphWidth + sideSpace, y: self.graphHeight ),
+                self.line(from: CGPoint(x: showSideLabels ? sideSpace : 0 , y: self.graphHeight ),
+                          to: CGPoint(x: self.graphWidth + sideSpace, y: self.graphHeight  ),
                           frame: bounds,
                           color: self.gridColor,
                           width: self.gridWidth,
@@ -270,6 +349,56 @@ extension LineChartView {
             }
         }
     }
+    
+
+    //MARK: - Draw vertical line view
+    
+    func drawVerticalLinePointView(x: CGFloat, y: CGFloat, _ dispatchQueue: DispatchQueue = .init(label: "process_vertical_line_point_view"),
+                                               _ completion: @escaping(CALayer) -> Void) {
+        
+        let drawGroup = DispatchGroup()
+        let tLayer = CALayer()
+         drawGroup.enter()
+        self.line(from: CGPoint(x: x, y: y),
+                  to: CGPoint(x: x , y: self.graphHeight ),
+                   frame: CGRect(x: x, y: y, width: 1, height: self.graphHeight ),
+                  color: self.barLineValueColor,
+                  width: 1,
+                  dashPatern: [7,5]) { layer in
+            tLayer.addSublayer(layer)
+            drawGroup.leave()
+        }
+    
+        drawGroup.notify(queue: dispatchQueue) {
+            completion(tLayer)
+        }
+    }
+    
+    fileprivate func drawPointRotation( x: CGFloat, y: CGFloat,_ dispatchQueue: DispatchQueue = .init(label: "process_point_rotation "),
+                                       _ completion: @escaping(CALayer) -> Void) {
+        let tLayer = CALayer()
+        let circleLayer = CAShapeLayer();
+        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: x, y: y, width: 10, height: 10)).cgPath;
+        circleLayer.strokeColor = self.linePointBorderColor.cgColor
+        circleLayer.fillColor = self.linePointFillColor.cgColor
+        tLayer.addSublayer(circleLayer)
+        completion(tLayer)
+    }
+    fileprivate func drawYValuePointRotation(x: CGFloat, y: CGFloat,_ dispatchQueue: DispatchQueue = .init(label: "process_y_value_point_rotation"),
+                                             _ completion: @escaping(CATextLayer) -> Void) {
+      
+        let label = CenterTextLayer()
+        label.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        label.position = CGPoint(x: sideSpace , y: y)
+        label.frame = CGRect(x: x, y: y, width: 40, height: 25)
+        label.font = CGFont(UIFont.systemFont(ofSize: 13).fontName as NSString)
+        label.fontSize = 13
+        label.foregroundColor = self.labelsColor.cgColor
+       
+        completion(label)
+    }
+    
+    
     
     //MARK: - drawSideLabels
     fileprivate func drawSideLabels(_ dataSource: LineChartDataSource,
@@ -291,7 +420,7 @@ extension LineChartView {
             values = values.sorted()
             values.insert(0, at: 0)
             let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self ), dataSource.numberOfHorizontalLines(in: self))
-            let hSpace = graphHeight / CGFloat(numOfGrids)
+            let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -311,7 +440,7 @@ extension LineChartView {
                         }
                     }
                     label.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-                    label.position = CGPoint(x: xPos , y: self.graphHeight - (hSpace * CGFloat(index) + 2))
+                    label.position = CGPoint(x: xPos , y: self.graphHeight - (hSpace * CGFloat(index) + 2) )
                     label.string = "\(values[index])"
                     label.font = CGFont(UIFont.systemFont(ofSize: 8).fontName as NSString)
                     label.fontSize = 10
@@ -320,6 +449,7 @@ extension LineChartView {
                     tLayers.append(label)
                     drawIndex += 1
                 }
+                
                 completion(tLayers)
             }
         }
@@ -338,7 +468,7 @@ extension LineChartView {
             
             //MARK: - Change
             for index in 0 ..< dataSource.numberOfVerticalLines(in: self){
-                if let lineChart = dataSource.lineChart?(self , xValueAt: index) {
+                if let lineChart = dataSource.lineChart?(self , viewXValueAt: index) {
                     values.append(lineChart)
                 }
             }
@@ -359,7 +489,7 @@ extension LineChartView {
                     label.font = CGFont(fontName)
                     label.fontSize = 10
                     label.foregroundColor = self.labelsColor.cgColor
-                    label.frame = .init(origin: CGPoint(x: xPos + sideSpace, y: yPos),
+                    label.frame = .init(origin: CGPoint(x: xPos + sideSpace, y: yPos ),
                                         size: CGSize(width: vSpace, height: self.bottomSpace))
                     tLayers.append(label)
                 }
@@ -381,41 +511,49 @@ extension LineChartView {
             // Create a temporary buffer layer
             let tLayer = CALayer()
             let lineBezierPath = UIBezierPath()
+            var pointsData: [CGPoint] = []
+            
             let gradientBezierPath = UIBezierPath()
             lineBezierPath.fill()
             lineBezierPath.stroke()
             let config = BezierConfiguration()
             
+            self.pointsData = []
             // Draw path
-            let vSpace = rect.width / CGFloat(dataSource.numberOfItems(in: self))
+            self.vSpace = 0.0
+            self.vSpace =  rect.width / (CGFloat(dataSource.numberOfItems(in: self))-1)
             
-            var pointsData: [CGPoint] = []
-            
-            let step: Double = Double(dataSource.numberOfSideLabels(in: self).last! / dataSource.numberOfHorizontalLines(in: self))
+            guard let maxSizeNumber = dataSource.numberOfSideLabels(in: self).last else {return}
+            let step: Double = Double(maxSizeNumber / dataSource.numberOfHorizontalLines(in: self))
             var startPoint: CGFloat = 0
             let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self), dataSource.numberOfHorizontalLines(in: self))
-            let hSpace = graphHeight / CGFloat(numOfGrids)
+            let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
             
-            for index in 0..<dataSource.numberOfItems(in: self) {
+            for index in 0..<dataSource.numberOfItems(in: self)  {
                 let xPos = rect.origin.x + vSpace * CGFloat(index)
-                startPoint =  rect.maxY - (dataSource.lineChart(self , yValueAt: index) *  hSpace / step)
+                
+                startPoint =  rect.maxY - (dataSource.lineChart(self , yValueAt: index) *  hSpace / step  + headerSpace)
                 
                 pointsData.append(CGPoint(x: xPos , y: startPoint ))
                 
             } // end
             pointsData.append(CGPoint(x: rect.origin.x + vSpace * CGFloat(dataSource.numberOfItems(in: self)),
                                       y: (pointsData.last?.y ?? rect.size.height)))
+            self.pointsData = pointsData
+           
             gradientBezierPath.move(to: CGPoint(x: rect.origin.x, y: self.graphHeight))
             let controlPoints = config.configureControlPoints(data: pointsData)
-            for index in 0 ..< pointsData.count {
+            for index in 0 ..< pointsData.count - 1 {
                 let point = pointsData[index]
                 if showPointYValue {
+                    // draw point value on line chart
                     if index < pointsData.count - 1 {
-                        let pointLayer = CALayer()
-                        pointLayer.frame = CGRect(x: point.x - 2.5 , y:  point.y - 2.5  , width: 5, height: 5)  //  2.5:  point width / 2
-                        pointLayer.backgroundColor = self.showPointYValueColor.cgColor
-                        pointLayer.cornerRadius = 2.5
-                        tLayer.addSublayer(pointLayer)
+                        let circleLayer = CAShapeLayer();
+                        circleLayer.path = UIBezierPath(ovalIn: CGRect(x: point.x - 4 , y:  point.y - 4  , width: 8, height: 8)).cgPath;
+                        circleLayer.strokeColor = self.linePointBorderColor.cgColor
+                        circleLayer.fillColor = self.linePointFillColor.cgColor
+                        tLayer.insertSublayer(circleLayer, at: 2)
+                        tLayer.addSublayer(circleLayer)
                     }
                 }
                 
@@ -450,7 +588,7 @@ extension LineChartView {
                 }
             }
             
-            let finalPoint = CGPoint(x: rect.origin.x + vSpace * (CGFloat(pointsData.count) - 1),
+            let finalPoint = CGPoint(x: rect.origin.x + vSpace * (CGFloat(pointsData.count)),
                                      y: self.graphHeight)
             gradientBezierPath.addCurve(to: finalPoint, controlPoint1: finalPoint, controlPoint2: finalPoint)
             
@@ -464,8 +602,8 @@ extension LineChartView {
             
             // Fill gradient
             let fillGradient = CAGradientLayer()
-            fillGradient.frame = self.bounds
-
+            fillGradient.frame = CGRect(x: 0, y: 0, width: graphWidth + sideSpace, height: self.bounds.height)
+          
             fillGradient.colors = [self.graphFillGradientColor[0].cgColor, self.graphFillGradientColor[1].cgColor]
             fillGradient.locations = [0.6,1 ]
             
@@ -485,62 +623,10 @@ extension LineChartView {
             lineGradientLayer.frame = self.bounds
             lineGradientLayer.mask = shapeLayer
             tLayer.insertSublayer(lineGradientLayer, at: 1)
-            
+
             completion(tLayer)
         }
     }
     
-    
-}
-
-// MARK: Helpers
-
-extension LineChartView {
-    
-    fileprivate func line(from startPoint: CGPoint,
-                          to endPoint: CGPoint,
-                          frame: CGRect,
-                          value: Double = 0,
-                          color: UIColor = .black,
-                          width: CGFloat = 1.0,
-                          dashPatern: [NSNumber] = [],
-                          _ dispatchQueue: DispatchQueue = .init(label: "line_queue"),
-                          _ completion: @escaping (CALayer) -> Void) {
-        
-        dispatchQueue.async {
-            var xStart = startPoint.x
-            var yStart = startPoint.y
-            if xStart.isNaN { xStart = 0 }
-            if yStart.isNaN {
-                if value != 0 {
-                    yStart = 0
-                } else {
-                    yStart = frame.size.height - 22
-                }
-            }
-            var xEnd = endPoint.x
-            var yEnd = endPoint.y
-            if xEnd.isNaN { xEnd = 0 }
-            if yEnd.isNaN {
-                if value != 0 {
-                    yEnd = 0
-                } else {
-                    yEnd = frame.size.height - 22
-                }
-            }
-            
-            let line = CAShapeLayer()
-            let linePath = UIBezierPath()
-            linePath.move(to: CGPoint(x: xStart, y: yStart))
-            linePath.addLine(to: CGPoint(x: xEnd, y: yEnd))
-            
-            line.path = linePath.cgPath
-            line.strokeColor = color.cgColor
-            line.lineWidth = width
-            line.lineCap = .round
-            line.lineDashPattern = dashPatern
-            completion(line)
-        }
-    }
     
 }

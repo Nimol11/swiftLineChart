@@ -26,8 +26,5 @@ import Foundation
      */
    @objc optional func lineChartDidFailRender(_ lineChar: LineChartView)
     
-    /*
-       This function use to show yValue when user press on graph
-     */
-   @objc optional func lineShowYValue(_ yValue: CGFloat, _ xLocation: CGFloat)
+ 
 }

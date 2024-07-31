@@ -39,7 +39,9 @@ import Foundation
          This function use to show grid bottom horizontal value
          it can be display String or Number
       */
-    @objc optional func lineChart(_ lineChart: LineChartView, xValueAt index: Int) -> String
+    @objc optional func lineChart(_ lineChart: LineChartView, viewXValueAt index: Int) -> String
+     
+    func lineChart(_ lineChart: LineChartView, xValueAt index: Int) -> Double
      
      /*
          This function use to set point AxisY on graph

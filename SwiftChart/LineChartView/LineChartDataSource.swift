@@ -15,25 +15,12 @@ import Foundation
         Value can't negative number
       */
     func numberOfItems(in lineChart: LineChartView) -> Int
-     
-     /*
-         This function use for prepare point to show value in Axis Y
-         The value is should be Number, can't be string
-         Value can't negative number
-      */
-    func numberOfSideLabels(in lineChart: LineChartView) -> [Int]
-     
+
      /*
         This function use to draw  vertical grid line
        The value should be Integer cannot be String, Float of Double .etc
       */
     func numberOfVerticalLines(in lineChart: LineChartView) -> Int
-     
-     /*
-        This function use to draw horizontal grid line
-        The value should be Integer cannot be String, Float or Double .etc
-      */
-    func numberOfHorizontalLines(in lineChart: LineChartView) -> Int
      
      /*
          This function use to show grid bottom horizontal value

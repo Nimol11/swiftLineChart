@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lgs-Zx-T7b">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="34l-cY-H1k">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -12,47 +12,115 @@
         <!--Line Chart View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LineChartViewController" id="BYZ-38-t0r" customClass="LineChartViewController" customModule="SwiftChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LineChartViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LineChartViewController" customModule="SwiftChart" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="LineChartView" customModule="SwiftChart" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="43n-I7-Kpx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="1208" y="-118"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="cBl-J4-U0z">
+            <objects>
+                <viewController id="DLm-ds-fsO" customClass="HomeViewController" customModule="SwiftChart" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2I5-iR-Ood">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7T5-0o-NN6">
+                                <rect key="frame" x="20" y="188" width="353" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="eMv-QE-GrX"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Line Chart"/>
+                                <connections>
+                                    <action selector="lineView:" destination="DLm-ds-fsO" eventType="touchUpInside" id="Ms7-DK-7r7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fCU-QM-VAN">
+                                <rect key="frame" x="20" y="366" width="353" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="CHz-43-yp5"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Bar Chart"/>
+                                <connections>
+                                    <action selector="barView:" destination="DLm-ds-fsO" eventType="touchUpInside" id="u1M-ZO-fzP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="3tq-hg-a4W"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fCU-QM-VAN" firstAttribute="top" secondItem="7T5-0o-NN6" secondAttribute="bottom" constant="135" id="9Fe-fj-WQ9"/>
+                            <constraint firstItem="fCU-QM-VAN" firstAttribute="leading" secondItem="3tq-hg-a4W" secondAttribute="leading" constant="20" id="QoJ-yf-uC3"/>
+                            <constraint firstItem="7T5-0o-NN6" firstAttribute="leading" secondItem="3tq-hg-a4W" secondAttribute="leading" constant="20" id="U4L-AJ-beJ"/>
+                            <constraint firstItem="7T5-0o-NN6" firstAttribute="top" secondItem="3tq-hg-a4W" secondAttribute="top" constant="85" id="dUu-aO-jmF"/>
+                            <constraint firstItem="3tq-hg-a4W" firstAttribute="trailing" secondItem="7T5-0o-NN6" secondAttribute="trailing" constant="20" id="puy-yJ-WlS"/>
+                            <constraint firstItem="3tq-hg-a4W" firstAttribute="trailing" secondItem="fCU-QM-VAN" secondAttribute="trailing" constant="20" id="toR-Fe-LJz"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fSR-qu-oho"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uza-1n-gJt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2249.6183206106871" y="-959.15492957746483"/>
         </scene>
         <!--Bar Chart View Controller-->
         <scene sceneID="7g6-r5-fr0">
             <objects>
-                <viewController id="Lgs-Zx-T7b" customClass="BarChartViewController" customModule="SwiftChart" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BarChartViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Lgs-Zx-T7b" customClass="BarChartViewController" customModule="SwiftChart" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="23c-n2-ZTZ">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSr-1H-67e" customClass="BarChartView" customModule="SwiftChart" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="64" width="393" height="754"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="j3Y-ll-7oE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="j3Y-ll-7oE" firstAttribute="bottom" secondItem="nSr-1H-67e" secondAttribute="bottom" id="3mU-Y0-dDs"/>
-                            <constraint firstItem="nSr-1H-67e" firstAttribute="top" secondItem="j3Y-ll-7oE" secondAttribute="top" id="6dt-Su-jlX"/>
+                            <constraint firstItem="nSr-1H-67e" firstAttribute="top" secondItem="j3Y-ll-7oE" secondAttribute="top" constant="5" id="6dt-Su-jlX"/>
                             <constraint firstItem="nSr-1H-67e" firstAttribute="leading" secondItem="j3Y-ll-7oE" secondAttribute="leading" id="6x9-Rl-JYN"/>
                             <constraint firstItem="j3Y-ll-7oE" firstAttribute="trailing" secondItem="nSr-1H-67e" secondAttribute="trailing" id="GOA-rb-t8p"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="bWh-HC-1qO"/>
                     <connections>
-                        <outlet property="barCharView" destination="nSr-1H-67e" id="Cdb-je-k3Q"/>
+                        <outlet property="barChartView" destination="nSr-1H-67e" id="Cdb-je-k3Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0a-TX-o2r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1123" y="-27"/>
+            <point key="canvasLocation" x="2201" y="-118"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0hU-pA-SjR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="34l-cY-H1k" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JRX-Fv-zAE">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="DLm-ds-fsO" kind="relationship" relationship="rootViewController" id="7vU-PH-JBl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MwW-xT-pzF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1322.9007633587785" y="-959.15492957746483"/>
         </scene>
     </scenes>
     <resources>

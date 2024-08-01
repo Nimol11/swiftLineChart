@@ -23,8 +23,6 @@ extension LineChartView {
         // Calculate min and max
         calculateSizes(dataSource)
         
-       
-        
         // Check if we can draw chart
         guard dataSource.numberOfItems(in: self) > 0 else {
             if let lineChartDidFailRender = delegate?.lineChartDidFailRender {
@@ -94,21 +92,18 @@ extension LineChartView {
                   queue: dispatchQueue) { layer in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.layer.insertSublayer(layer, at: 1)
-
-               
+                self.layer.insertSublayer(layer, at: 5)
                 renderGroup.leave()
             }
-//
            
         }
         // Draw Vertical Line point view
         renderGroup.enter()
         drawVerticalLinePointView(x: sideSpace, y: 40) { [weak self ] lineLayer in
             DispatchQueue.main.async {
-                self?.lineLayerPoint = lineLayer
-                if let layer = self?.lineLayerPoint {
-                    self?.layer.insertSublayer(layer,at: 2)
+                self?.barVerticalPoint = lineLayer
+                if let layer = self?.barVerticalPoint {
+                    self?.layer.insertSublayer(layer,at: 6)
                     if self?.isHiddenLineBarValueOnRelease == true {
                         layer.isHidden = true
                     }
@@ -116,6 +111,7 @@ extension LineChartView {
                 renderGroup.leave()
             }
         }
+        // Draw Vertical line Value
         renderGroup.enter()
         drawYValuePointRotation(x: sideSpace, y: 15) { [weak self]  layer in
             self?.yValueTextLayer = layer
@@ -127,13 +123,13 @@ extension LineChartView {
                 }
             }
         }
+        // Draw point on line
         renderGroup.enter()
         self.drawPointRotation(x: self.sideSpace - 5 ,y: 0) { [weak self] pointLayer in
             DispatchQueue.main.async {
                 self?.pointRotationLayer = pointLayer
                 if let pointRotationLayer = self?.pointRotationLayer {
-                    self?.layer.insertSublayer(pointRotationLayer, above: self?.lineLayerPoint)
-                   
+                    self?.layer.insertSublayer(pointRotationLayer, above: self?.barVerticalPoint)
                     renderGroup.leave()
                     if self?.isHiddenLineBarValueOnRelease == true {
                         pointRotationLayer.isHidden = true
@@ -141,6 +137,7 @@ extension LineChartView {
                 }
             }
         }
+        // Draw Header graph
         renderGroup.enter()
         self.drawHeader { layer  in
             DispatchQueue.main.async { [weak self ] in
@@ -268,8 +265,13 @@ extension LineChartView {
     fileprivate func drawHorizontalGrid(_ dataSource: LineChartDataSource,
                                         _ dispatchQueue: DispatchQueue = .init(label: "process_horizontal_grid_queue"),
                                         _ completion: @escaping (CALayer) -> Void) {
+        var numberOfHorizontalValue: [Int] = []
+        for index in 0..<dataSource.numberOfItems(in: self) {
+            numberOfHorizontalValue.append(Int(dataSource.lineChart(self, yValueAt: index)))
+        }
+        let yValue = numberOfHorizontalValue.calculateHorizontalLine()
         
-        let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self), dataSource.numberOfHorizontalLines(in: self))
+        let numOfGrids = min(yValue.count, yValue.count)
         let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
         let bounds = bounds
         
@@ -409,45 +411,29 @@ extension LineChartView {
             guard let self = self else { return }
             var tLayers = [CenterTextLayer]()
             var values: [Int] = []
-            let maxNumberOfLabels = dataSource.numberOfSideLabels(in: self)
-            for index in stride(from: self.minValue,
-                                to: self.maxValue,
-                                by: (self.maxValue - self.minValue) / CGFloat(maxNumberOfLabels.count)) {
-                values.append(Int(index))
+            var numberOfHorizontalValue: [Int] = []
+            for index in 0..<dataSource.numberOfItems(in: self) {
+                numberOfHorizontalValue.append(Int(dataSource.lineChart(self , yValueAt: index)))
             }
-            values.append(Int(self.maxValue))
-            values = dataSource.numberOfSideLabels(in: self)
-            values = values.sorted()
-            values.insert(0, at: 0)
-            let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self ), dataSource.numberOfHorizontalLines(in: self))
+            values = numberOfHorizontalValue.calculateHorizontalLine()
+          
+            let numOfGrids = min(values.count , values.count)
             let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
-            
+            values.insert(0, at: 0)
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                var drawIndex = 0
                 for index in 0..<values.count {
                     let label = CenterTextLayer()
                     label.frame = .init(x: 0, y: 0, width: self.sideSpace, height: 15)
-                    var xPos = self.sideSpace / 2
-                    var yPos = self.graphHeight - (CGFloat(drawIndex) * hSpace)
-                    if xPos.isNaN { xPos = 0 }
-                    if yPos.isNaN {
-                        
-                        if dataSource.lineChart(self, yValueAt: drawIndex) != 0 {
-                            yPos = -10
-                        } else {
-                            yPos = self.graphHeight - 10
-                        }
-                    }
+                    let xPos = self.sideSpace / 2
+
                     label.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                     label.position = CGPoint(x: xPos , y: self.graphHeight - (hSpace * CGFloat(index) + 2) )
                     label.string = "\(values[index])"
                     label.font = CGFont(UIFont.systemFont(ofSize: 8).fontName as NSString)
                     label.fontSize = 10
-                    
                     label.foregroundColor = self.labelsColor.cgColor
                     tLayers.append(label)
-                    drawIndex += 1
                 }
                 
                 completion(tLayers)
@@ -523,10 +509,17 @@ extension LineChartView {
             self.vSpace = 0.0
             self.vSpace =  rect.width / (CGFloat(dataSource.numberOfItems(in: self))-1)
             
-            guard let maxSizeNumber = dataSource.numberOfSideLabels(in: self).last else {return}
-            let step: Double = Double(maxSizeNumber / dataSource.numberOfHorizontalLines(in: self))
+            var numberOfHorizontalValue: [Int] = []
+            for index in 0..<dataSource.numberOfItems(in: self) {
+                numberOfHorizontalValue.append(Int(dataSource.lineChart(self, yValueAt: index)))
+            }
+            let yValue = numberOfHorizontalValue.calculateHorizontalLine()
+            
+            
+            guard let maxSizeNumber = yValue.last else { return }
+            let step: Double = Double(maxSizeNumber / yValue.count)
             var startPoint: CGFloat = 0
-            let numOfGrids = min(dataSource.numberOfHorizontalLines(in: self), dataSource.numberOfHorizontalLines(in: self))
+            let numOfGrids = min(yValue.count, yValue.count)
             let hSpace = (graphHeight - headerSpace) / CGFloat(numOfGrids)
             
             for index in 0..<dataSource.numberOfItems(in: self)  {

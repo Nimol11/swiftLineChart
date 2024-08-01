@@ -29,6 +29,7 @@
 		52E803D92C51021F0001D916 /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D22C51021F0001D916 /* LineChartData.swift */; };
 		52E803DA2C51021F0001D916 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D32C51021F0001D916 /* LineChartView.swift */; };
 		52E803DC2C510B900001D916 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 52E803DB2C510B900001D916 /* README.md */; };
+		52FFB07A2C5B6EA3008DABDA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFB0792C5B6EA3008DABDA /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		52E803D22C51021F0001D916 /* LineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartData.swift; sourceTree = "<group>"; };
 		52E803D32C51021F0001D916 /* LineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		52E803DB2C510B900001D916 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		52FFB0792C5B6EA3008DABDA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				52E803BC2C51019B0001D916 /* LineChartViewController.swift */,
 				52C860052C59F39D00071FE8 /* BarChartViewController.swift */,
+				52FFB0792C5B6EA3008DABDA /* HomeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 				52E803B92C51019B0001D916 /* AppDelegate.swift in Sources */,
 				52E803DA2C51021F0001D916 /* LineChartView.swift in Sources */,
 				52E803D62C51021F0001D916 /* LineChartDataSource.swift in Sources */,
+				52FFB07A2C5B6EA3008DABDA /* HomeViewController.swift in Sources */,
 				524CCA412C588D9E00D4D8B2 /* BarChartDelegate.swift in Sources */,
 				524CCA3F2C588D8000D4D8B2 /* BarChartViewHelper.swift in Sources */,
 				52C860082C59F4D300071FE8 /* ArrayExtension.swift in Sources */,

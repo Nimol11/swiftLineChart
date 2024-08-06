@@ -8,16 +8,16 @@
 ## :bulb: Usage 
 
 :key: To initialize a line chart programmatically
-<br> Line Chart
+<br> <b> Line Chart </b>
 ```swift 
 let lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
 ```
-<br> <b> Bar Chart 
+<br> <b> Bar Chart </b>
 ```swift 
 let barChart = BarChartView(frame: CGRect(x: 0, y:0 , width: 200, height: 300))
 ```
 :key: To initialize a line chart using storyboard 
- <br> <b>Line Chart  
+ <br> <b>Line Chart </b>
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.32%20in%20the%20morning.png?raw=true" width = 400px />
 <br> Bar Chart <br>
 <img src = "https://github.com/Nimol11/video/blob/main/folder/Screenshot%202024-08-06%20at%208.36.01%20in%20the%20morning.png?raw=true" width = 400px />
@@ -25,14 +25,14 @@ let barChart = BarChartView(frame: CGRect(x: 0, y:0 , width: 200, height: 300))
 :key: Need to reload chart data  after set data 
 
 ```swift 
-  lineChart.reloadData()
+lineChart.reloadData()
 ``` 
 ``` swift 
 barChart.reloadData()
 ```
 
 :eyes: property 
-<br> Line Chart
+<br> Line Chart </b>
 ```swift
 lineChart.gridWidth = 0.3
 lineChart.lineWidth = 2
@@ -53,7 +53,7 @@ lineChart.delegate = self
 lineChart.lineWidth = 1 
 
 ```
-<br> Bar Chart 
+<br> Bar Chart  </b>
 ```swift 
 barChartView.dataSource = self
 barChartView.delegate = self
@@ -102,11 +102,8 @@ var data: [ChartData] = [
 ```
 
 ### :bulb: DataSource 
-<br> Line Chart 
+<br> Line Chart  </b>
 ```swift 
-
-
- 
     func numberOfItems(in lineChart: LineChartView) -> Int
     func numberOfVerticalLines(in lineChart: LineChartView) -> Int
     func lineChart(_ lineChart: LineChartView, xValueAt index: Int) -> Double
@@ -118,7 +115,7 @@ var data: [ChartData] = [
 
 ```
 
-<br> Bar chart 
+<br> Bar chart  </b>
 ```swift 
     func numberOfItem(in barChart: BarChartView) -> Int
     func barChart(_ barChart: BarChartView, xValueAt index: Int) -> String
@@ -131,7 +128,7 @@ var data: [ChartData] = [
 ``` 
 ### :bulb: Delegate 
 
-<br> Line Chart
+<br> Line Chart </b>
 ```swift 
 
    @objc optional func lineChartDidStartRender(_ lineChart: LineChartView)
@@ -139,7 +136,7 @@ var data: [ChartData] = [
    @objc optional func lineChartDidFailRender(_ lineChar: LineChartView)
 
 ```
-<br> Bar Chart
+<br> Bar Chart </b>
 ```swift 
     @objc optional func barChartDidStartRender(_ barChart: BarChartView)
     @objc optional func barChartDidFinishRender(_ barChart: BarChartView)

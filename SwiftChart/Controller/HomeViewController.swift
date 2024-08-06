@@ -8,10 +8,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
     }
     @IBAction func lineView(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "LineChartViewController")
@@ -22,6 +21,6 @@ class HomeViewController: UIViewController {
         let vc = storyboard?.instantiateViewController(withIdentifier: "BarChartViewController")
         navigationController?.pushViewController(vc!, animated: true )
     }
-    
-
+ 
+   
 }

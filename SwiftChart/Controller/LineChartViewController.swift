@@ -7,81 +7,99 @@
 
 import UIKit
 
-struct ChartData: LineChartData {
-    var xValue: Double
-    var yValue: Double
-}
+
 
 class LineChartViewController: UIViewController {
     
     private let horizontalNumber = ["00:00", "6:00", "12:00", "18:00", "24:00"]
-    
 
     // calling chartView Class
     lazy var chartView: LineChartView = {
         let lineChart = LineChartView()
-        lineChart.gridWidth = 0.3
-        lineChart.lineWidth = 2
-        lineChart.sideSpace = 25
+        lineChart.gridlineWidth = 1
+        lineChart.sideSpace = 30
         lineChart.bottomSpace = 25
-        lineChart.showVerticalGrid = false
-        lineChart.showHorizontalGrid = true
+        lineChart.showVerticalGridLine = false
+        lineChart.showHorizontalGridLine = true
         lineChart.showBottomLabels = true
         lineChart.showSideLabels = true
-        lineChart.gridColor = .gray
-        lineChart.labelsColor = .graph
+        lineChart.gridLineColor = .gray
+        lineChart.labelsTextColor = .graph
         lineChart.chartType = .linear
         lineChart.graphFillGradientColor = [.graph, .black]
         lineChart.showPointYValue = true
         lineChart.dataSource = self
         lineChart.delegate = self
         lineChart.lineWidth = 1
-        lineChart.barLineValueColor = .red
+        lineChart.lineGraphColor = .systemPink
+        lineChart.barVerticalLineIndicatorColor = .red
         lineChart.linePointFillColor = .graph
         lineChart.linePointBorderColor = .white
-        lineChart.isHiddenLineBarValueOnRelease = true
+        
+        lineChart.isHiddenLineBarValueOnRelease = false
         lineChart.translatesAutoresizingMaskIntoConstraints = false
         return lineChart
     }()
     
     // sample data
-    var data: [ChartData] = [
-        ChartData(xValue: 0, yValue: 299),
-        ChartData(xValue: 0, yValue: 280),
-        ChartData(xValue: 0, yValue: 298),
-        ChartData(xValue: 4, yValue: 250),
-        ChartData(xValue: 5, yValue: 299),
-        ChartData(xValue: 6, yValue: 295),
-        ChartData(xValue: 7, yValue: 290),
-        ChartData(xValue: 8, yValue: 270),
-        ChartData(xValue: 9, yValue: 280),
-        ChartData(xValue: 10, yValue: 299),
-        ChartData(xValue: 11, yValue: 260),
-        ChartData(xValue: 12, yValue: 299),
-        ChartData(xValue: 13, yValue: 300),
-        ChartData(xValue: 1, yValue: 299),
-        ChartData(xValue: 2, yValue: 200),
-        ChartData(xValue: 3, yValue: 298),
-        ChartData(xValue: 4, yValue: 250),
-        ChartData(xValue: 5, yValue: 299),
-        ChartData(xValue: 6, yValue: 295),
-        ChartData(xValue: 7, yValue: 290),
-        ChartData(xValue: 8, yValue: 270),
-        ChartData(xValue: 9, yValue: 280),
-        ChartData(xValue: 10, yValue: 299),
-        ChartData(xValue: 11, yValue: 260),
-        ChartData(xValue: 12, yValue: 299),
-        ChartData(xValue: 13, yValue: 300),
+    var data: [ChartModel] = [
+        ChartModel(xValue: 0, yValue: 270),
+        ChartModel(xValue: 4, yValue: 5),
+        ChartModel(xValue: 0, yValue: 298),
+        ChartModel(xValue: 4, yValue: 250),
+        ChartModel(xValue: 5, yValue: 299),
+        ChartModel(xValue: 6, yValue: 295),
+        ChartModel(xValue: 7, yValue: 290),
+        ChartModel(xValue: 8, yValue: 270),
+        ChartModel(xValue: 9, yValue: 280),
+        ChartModel(xValue: 10, yValue: 299),
+        ChartModel(xValue: 11, yValue: 260),
+        ChartModel(xValue: 12, yValue: 299),
+        ChartModel(xValue: 13, yValue: 300),
+        ChartModel(xValue: 1, yValue: 299),
+        ChartModel(xValue: 2, yValue: 200),
+        ChartModel(xValue: 3, yValue: 298),
+        ChartModel(xValue: 4, yValue: 250),
+        ChartModel(xValue: 5, yValue: 299),
+        ChartModel(xValue: 6, yValue: 295),
+        ChartModel(xValue: 7, yValue: 290),
+        ChartModel(xValue: 8, yValue: 270),
+        ChartModel(xValue: 9, yValue: 280),
+        ChartModel(xValue: 10, yValue: 299),
+        ChartModel(xValue: 11, yValue: 260),
+        ChartModel(xValue: 12, yValue: 299),
+        ChartModel(xValue: 13, yValue: 300),
+        ChartModel(xValue: 0, yValue: 270),
+        ChartModel(xValue: 4, yValue: 5),
+        ChartModel(xValue: 0, yValue: 298),
+        ChartModel(xValue: 4, yValue: 250),
+        ChartModel(xValue: 5, yValue: 299),
+        ChartModel(xValue: 6, yValue: 295),
+        ChartModel(xValue: 7, yValue: 290),
+        ChartModel(xValue: 8, yValue: 270),
+        ChartModel(xValue: 9, yValue: 280),
+        ChartModel(xValue: 10, yValue: 299),
+        ChartModel(xValue: 11, yValue: 260),
+        ChartModel(xValue: 12, yValue: 299),
+        ChartModel(xValue: 13, yValue: 300),
+        ChartModel(xValue: 1, yValue: 299),
+        ChartModel(xValue: 2, yValue: 200),
+        ChartModel(xValue: 3, yValue: 298),
+        ChartModel(xValue: 4, yValue: 250),
+        ChartModel(xValue: 5, yValue: 299),
+        ChartModel(xValue: 6, yValue: 295),
+        ChartModel(xValue: 7, yValue: 290),
+        ChartModel(xValue: 8, yValue: 270),
+        ChartModel(xValue: 9, yValue: 280),
+        ChartModel(xValue: 10, yValue: 299),
+        ChartModel(xValue: 11, yValue: 260),
+        ChartModel(xValue: 12, yValue: 299),
+        ChartModel(xValue: 13, yValue: 300),
     ]
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(chartView)
-       
-
-       
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -124,7 +142,8 @@ extension LineChartViewController: LineChartDataSource {
     func lineChart(_ lineChart: LineChartView, viewXValueAt index: Int) -> String {
         return String(describing: horizontalNumber[index])
     }
-    func numberOfVerticalLines(in lineChart: LineChartView) -> Int { horizontalNumber.count
+    func numberOfVerticalLines(in lineChart: LineChartView) -> Int { 
+        return horizontalNumber.count
     }
     
 }

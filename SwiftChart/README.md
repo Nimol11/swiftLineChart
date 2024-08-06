@@ -8,21 +8,31 @@
 ## :bulb: Usage 
 
 :key: To initialize a line chart programmatically
+<br> Line Chart
 ```swift 
-let lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+let lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
+```
+<br> Bar Chart 
+```swift 
+let barChart = BarChartView(frame: CGRect(x: 0, y:0 , width: 200, height: 300))
 ```
 :key: To initialize a line chart using storyboard 
-
+ <br> Line Chart  
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.32%20in%20the%20morning.png?raw=true" width = 400px />
+<br> Bar Chart
+<img src = "https://github.com/Nimol11/video/blob/main/folder/Screenshot%202024-08-06%20at%208.36.01%20in%20the%20morning.png?raw=true" width = 400px />
 
-:key: Need to reload chart data 
+:key: Need to reload chart data  after set data 
 
 ```swift 
-self.lineChart.reloadData()
+  lineChart.reloadData()
 ``` 
+``` swift 
+barChart.reloadData()
+```
 
 :eyes: property 
-
+<br> Line Chart
 ```swift
 lineChart.gridWidth = 0.3
 lineChart.lineWidth = 2
@@ -42,6 +52,32 @@ lineChart.dataSource = self
 lineChart.delegate = self
 lineChart.lineWidth = 1 
 
+```
+<br> Bar Chart 
+```swift 
+barChartView.dataSource = self
+barChartView.delegate = self
+
+barChartView.showVerticalGridLine = true
+barChartView.showHorizontalGridLine = true
+barChartView.showVerticalLine = true
+barChartView.showBottomLabels = true
+barChartView.showHorizontalLine = true
+barChartView.showSideLabels = true
+barChartView.isHiddenShowDetailAndBarLineValueOnRelease = false
+barChartView.labelsTextColor = .graph
+barChartView.bottomShowDetailColor = .graph
+barChartView.barVerticalIndicatorColor = UIColor.green
+barChartView.barChartColor = .graph
+barChartView.showDetailForegroundColor = .green
+barChartView.sideSpace = 30
+barChartView.gridLineWidth = 1
+barChartView.bottomSpace = 25
+barChartView.barVerticalIndicatorWidth = 1
+barChartView.showDetailFontSize = 16
+
+barChartView.showDetailFont = UIFont.systemFont(ofSize: 10)
+barChartView.showDetailForegroundColor = UIColor.purple
 ```
 
 :eyes: sample data  
@@ -66,47 +102,52 @@ var data: [ChartData] = [
 ```
 
 ### :bulb: DataSource 
-
+<br> Line Chart 
 ```swift 
 
- @objc public protocol LineChartDataSource: AnyObject {
-   func numberOfItems(in lineChart: LineChartView) -> Int
-     
-   func numberOfSideLabels(in lineChart: LineChartView) -> [Int]
-     
-   func numberOfVerticalLines(in lineChart: LineChartView) -> Int
 
-   func numberOfHorizontalLines(in lineChart: LineChartView) -> Int
-    
-   @objc optional func lineChart(_ lineChart: LineChartView, xValueAt index: Int) -> String
-    
-   func lineChart(_ lineChart: LineChartView, yValueAt index: Int) -> CGFloat
-     
-   @objc optional  func lineChart(_ lineChart: LineChartView, verticalDashPatternAt index: Int) -> [NSNumber]
-     
-   @objc optional func lineChart(_ lineChart: LineChartView, horizontalDashPatternAt index: Int) -> [NSNumber]
-}
+ 
+    func numberOfItems(in lineChart: LineChartView) -> Int
+    func numberOfVerticalLines(in lineChart: LineChartView) -> Int
+    func lineChart(_ lineChart: LineChartView, xValueAt index: Int) -> Double
+    func lineChart(_ lineChart: LineChartView, yValueAt index: Int) -> CGFloat
+    @objc optional func lineChart(_ lineChart: LineChartView, viewXValueAt index: Int) -> String
+    @objc optional  func lineChart(_ lineChart: LineChartView, verticalDashPatternAt index: Int) -> [NSNumber]
+    @objc optional func lineChart(_ lineChart: LineChartView, horizontalDashPatternAt index: Int) -> [NSNumber]
+
 
 ```
 
+<br> Bar chart 
+```swift 
+    func numberOfItem(in barChart: BarChartView) -> Int
+    func barChart(_ barChart: BarChartView, xValueAt index: Int) -> String
+    func barChart(_ barChart: BarChartView, yValueAt index: Int) -> CGFloat
+    func numberOfVerticalLines(in barChart: BarChartView) -> Int
+    func numberOfVertical(in barChart: BarChartView, verticalViewAt index: Int) -> String
+    
+    @objc optional func barChart(_ barChart: BarChartView, verticalDashPatternAt index: Int) -> [NSNumber]
+    @objc optional func barChart(_ barChart: BarChartView, horizontalDashPatternAt index: Int) -> [NSNumber]
+``` 
 ### :bulb: Delegate 
 
+<br> Line Chart
 ```swift 
 
-@objc public protocol LineChartDelegate: AnyObject {
-
    @objc optional func lineChartDidStartRender(_ lineChart: LineChartView)
-
    @objc optional func lineChartDidFinishRender(_ lineChart: LineChartView)
-
    @objc optional func lineChartDidFailRender(_ lineChar: LineChartView)
 
-   @objc optional func lineShowYValue(_ yValue: CGFloat, _ xLocation: CGFloat)
-}
-
 ```
-
+<br> Bar Chart
+```swift 
+    @objc optional func barChartDidStartRender(_ barChart: BarChartView)
+    @objc optional func barChartDidFinishRender(_ barChart: BarChartView)
+    @objc optional func barChartDidFailRender(_ barChart: BarChartView)
+```
 ## Result 
 
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.53%20in%20the%20morning.png?raw=true" width= 400px />
+<br> 
+<img src = "https://github.com/Nimol11/video/blob/main/folder/Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20Max%20-%202024-08-06%20at%2013.19.16.png?raw=true" width=400px />
 

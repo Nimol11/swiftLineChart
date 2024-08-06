@@ -8,9 +8,7 @@
 import UIKit
 extension UIView {
     
-    /*
-      This function if make for view extension for helper view to draw line on graph 
-     */
+ 
      func line(from startPoint: CGPoint,
                           to endPoint: CGPoint,
                           frame: CGRect,

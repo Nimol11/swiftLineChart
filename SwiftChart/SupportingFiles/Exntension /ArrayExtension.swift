@@ -7,43 +7,69 @@
 
 import Foundation
 extension Array where Element: Comparable {
+   
     func calculateHorizontalLine() -> [Int] {
         var verticalNumber: [Int] = []
-        var yValue: [Int] = []
-        var count = 0
+       
+        let yValue = self.sorted()
 
-        let data = self.sorted()
-        guard let maxValue = data.last as? Int else { return [] }
+        var data:[Double] =  []
+        for element in yValue {
+            data.append(Double(element as? Int ?? 0 ))
+        }
+        let majorUnit = calculateMajorUnit(data: data )
+        guard let maxValue = data.last  else { return [] }
+        var index = 1
+        var y = Int((majorUnit).rounded(.up) * Double(index))
+        while y <= Int(maxValue + majorUnit) {
+            verticalNumber.append(y)
+            index += 1
+            y = Int((majorUnit).rounded(.up) * Double(index))
+        }      
+        return verticalNumber
+    }
 
-        if maxValue >= 10 {
-            for element in data {
-                if let value = element as? Int, value >= 10 {
-                    yValue.append(value)
-                }
-            }
-            yValue = yValue.sorted()
-            count = Swift.min(yValue.count, 10)
-            let spacing = yValue.last! / count
-            for value in 1..<count + 3 {
-                verticalNumber.append(spacing * value)
-            }
-        } else {  // for max value that is less than 10
-            for element in data {
-                if let value = element as? Int {
-                    yValue.append(value)
-                }
-            }
-            yValue = yValue.sorted()
-            count = Swift.min(yValue.count, 10)
-            if let yValueLast = yValue.last, yValueLast > 0 {
-                let spacing = yValueLast / yValueLast
-                for value in 1..<yValueLast + 2 {
-                    verticalNumber.append(spacing * value)
-                }
-            } else {
-                verticalNumber.append(1) // for all values that are equal to 0
+    func calculateMajorUnit(data: [Double]) -> Double {
+        // Ensure data array is not empty
+        guard !data.isEmpty else {
+            return 1
+        }
+        
+        // Calculate data range
+        let dataMin = data.min() ?? 0
+        let dataMax = data.max() ?? 0
+        let dataRange = dataMax - dataMin
+       
+        if dataMax == dataMin {
+            return 1
+        }
+        let magnitude = pow(10, floor(log10(dataRange)))
+        let factors = dataRange / magnitude
+        
+        let niceFactors: [Double] = [1, 2, 5]
+        var niceFactor = niceFactors[0]
+        for factor in niceFactors {
+            if factor >= factor {
+                niceFactor = factor
+                break
             }
         }
-        return verticalNumber
+        
+        let interval = niceFactor * magnitude
+    
+        // Adjust number of ticks based on interval
+        let numTicks = Int(round(dataRange / interval))
+       
+        if numTicks < 10 / 2 && numTicks >= 3 {         // 10: Target line
+            return interval / 2
+        } else if numTicks > 10 * 2 {
+            return interval * 2
+        } else if numTicks  < 3 {
+            return interval / 5
+        }
+        else {
+            return interval
+        }
+        
     }
 }

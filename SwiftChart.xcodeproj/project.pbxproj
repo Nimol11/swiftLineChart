@@ -14,6 +14,7 @@
 		524CCA412C588D9E00D4D8B2 /* BarChartDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524CCA402C588D9E00D4D8B2 /* BarChartDelegate.swift */; };
 		524CCA432C588DAD00D4D8B2 /* BarChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524CCA422C588DAD00D4D8B2 /* BarChartDataSource.swift */; };
 		524CCA462C588E1400D4D8B2 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524CCA452C588E1400D4D8B2 /* UIViewExtension.swift */; };
+		52C2DAD12C61B38900214627 /* ChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2DAD02C61B38900214627 /* ChartModel.swift */; };
 		52C860062C59F39D00071FE8 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C860052C59F39D00071FE8 /* BarChartViewController.swift */; };
 		52C860082C59F4D300071FE8 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C860072C59F4D300071FE8 /* ArrayExtension.swift */; };
 		52E803B92C51019B0001D916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803B82C51019B0001D916 /* AppDelegate.swift */; };
@@ -26,7 +27,6 @@
 		52E803D62C51021F0001D916 /* LineChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803CF2C51021F0001D916 /* LineChartDataSource.swift */; };
 		52E803D72C51021F0001D916 /* LineChartHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D02C51021F0001D916 /* LineChartHelper.swift */; };
 		52E803D82C51021F0001D916 /* CenterTextLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D12C51021F0001D916 /* CenterTextLayer.swift */; };
-		52E803D92C51021F0001D916 /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D22C51021F0001D916 /* LineChartData.swift */; };
 		52E803DA2C51021F0001D916 /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803D32C51021F0001D916 /* LineChartView.swift */; };
 		52E803DC2C510B900001D916 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 52E803DB2C510B900001D916 /* README.md */; };
 		52FFB07A2C5B6EA3008DABDA /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FFB0792C5B6EA3008DABDA /* HomeViewController.swift */; };
@@ -40,6 +40,7 @@
 		524CCA402C588D9E00D4D8B2 /* BarChartDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDelegate.swift; sourceTree = "<group>"; };
 		524CCA422C588DAD00D4D8B2 /* BarChartDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataSource.swift; sourceTree = "<group>"; };
 		524CCA452C588E1400D4D8B2 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		52C2DAD02C61B38900214627 /* ChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModel.swift; sourceTree = "<group>"; };
 		52C860052C59F39D00071FE8 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
 		52C860072C59F4D300071FE8 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		52E803B52C51019B0001D916 /* SwiftChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,7 +55,6 @@
 		52E803CF2C51021F0001D916 /* LineChartDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataSource.swift; sourceTree = "<group>"; };
 		52E803D02C51021F0001D916 /* LineChartHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHelper.swift; sourceTree = "<group>"; };
 		52E803D12C51021F0001D916 /* CenterTextLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterTextLayer.swift; sourceTree = "<group>"; };
-		52E803D22C51021F0001D916 /* LineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartData.swift; sourceTree = "<group>"; };
 		52E803D32C51021F0001D916 /* LineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		52E803DB2C510B900001D916 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52FFB0792C5B6EA3008DABDA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +99,14 @@
 				52C860072C59F4D300071FE8 /* ArrayExtension.swift */,
 			);
 			path = "Exntension ";
+			sourceTree = "<group>";
+		};
+		52C2DACD2C61B2DB00214627 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				52C2DAD02C61B38900214627 /* ChartModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		52C860022C59F2BC00071FE8 /* Controller */ = {
@@ -151,6 +159,7 @@
 		52E803B72C51019B0001D916 /* SwiftChart */ = {
 			isa = PBXGroup;
 			children = (
+				52C2DACD2C61B2DB00214627 /* Model */,
 				52C860042C59F2E200071FE8 /* SupportingFiles */,
 				52C860032C59F2CD00071FE8 /* View */,
 				52C860022C59F2BC00071FE8 /* Controller */,
@@ -165,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				52E803CE2C51021F0001D916 /* BezierSegmentControlPoints.swift */,
-				52E803D22C51021F0001D916 /* LineChartData.swift */,
 				52E803CF2C51021F0001D916 /* LineChartDataSource.swift */,
 				52E803CD2C51021F0001D916 /* LineChartDelegate.swift */,
 				52E803D02C51021F0001D916 /* LineChartHelper.swift */,
@@ -251,7 +259,7 @@
 				52E803D72C51021F0001D916 /* LineChartHelper.swift in Sources */,
 				52E803D82C51021F0001D916 /* CenterTextLayer.swift in Sources */,
 				524CCA432C588DAD00D4D8B2 /* BarChartDataSource.swift in Sources */,
-				52E803D92C51021F0001D916 /* LineChartData.swift in Sources */,
+				52C2DAD12C61B38900214627 /* ChartModel.swift in Sources */,
 				524CCA462C588E1400D4D8B2 /* UIViewExtension.swift in Sources */,
 				52E803BD2C51019B0001D916 /* LineChartViewController.swift in Sources */,
 				52E803B92C51019B0001D916 /* AppDelegate.swift in Sources */,

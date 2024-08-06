@@ -6,12 +6,9 @@
 //
 
 import UIKit
+import QuartzCore
 extension BarChartView {
     
-    /*
-       This function is render view to draw Bar Chart
-       It Group of task function to draw chart
-     */
     public func render(_ dataSource: BarChartDataSource,
                        _ dispatchQueue: DispatchQueue = .init(label: "process_queue"),
                        _ completion: @escaping() -> Void)  {
@@ -19,9 +16,7 @@ extension BarChartView {
         
         // Before we start process to draw chart we need to remove all old layers in view
         removeAllLayers()
-        // this step we calculate width and height for graph
-        calculatesSizes(dataSource)
-        
+   
         // delegate action if process of draw chart did fail process
         guard dataSource.numberOfItem(in: self ) > 0 else {
             if let barChartDidFailRender = delegate?.barChartDidFailRender {
@@ -50,7 +45,7 @@ extension BarChartView {
             }
         }
         // Draw Horizontal grid graph
-        if showHorizontalGrid {
+        if showHorizontalGridLine {
             renderGroup.enter()
             self.drawHorizontalGrid(dataSource, dispatchQueue) { layer  in
                 DispatchQueue.main.async {
@@ -60,7 +55,7 @@ extension BarChartView {
             }
         }
         // Draw Vertical grid graph
-        if showVerticalGrid {
+        if showVerticalGridLine {
             renderGroup.enter()
             self.drawVerticalGrid(dataSource, dispatchQueue) { layer  in
                 DispatchQueue.main.async {
@@ -95,7 +90,7 @@ extension BarChartView {
                           canvas: CGRect(x: showSideLabels ? sideSpace : 0, y: bounds.origin.y + headerSpace, width: graphWidth, height: graphHeight),
                           queue: dispatchQueue) { layer  in
             DispatchQueue.main.async { [self] in
-                self.layer.insertSublayer(layer, at: 2)
+                self.layer.insertSublayer(layer, below: self.barVerticalPoint)
                 renderGroup.leave()
             }
         }
@@ -118,8 +113,8 @@ extension BarChartView {
             self.barVerticalPoint = layer
             DispatchQueue.main.async {
                 if let layer = self.barVerticalPoint {
-                    self.layer.insertSublayer(layer, at: 3)
-                    self.barVerticalPoint?.isHidden = true
+                    self.layer.insertSublayer(layer, at: 1)
+                    layer.isHidden = true
                     renderGroup.leave()
                 }
             }
@@ -135,30 +130,7 @@ extension BarChartView {
             layer.removeFromSuperlayer()
         }
     }
-    private func calculatesSizes(_ dataSource: BarChartDataSource) {
-        graphWidth = frame.size.width - ( showSideLabels ? sideSpace + 10 : 0) - padding
-        graphHeight = frame.size.height - (showBottomLabels ? bottomSpace : 0 ) - showValueDetailSpace
-        minValue = CGFloat.greatestFiniteMagnitude
-        maxValue = 0.0
-        for index in 0..<dataSource.numberOfItem(in: self) {
-            let yValue = dataSource.barChart(self, yValueAt: index)
-            if maxValue < yValue { maxValue = yValue }
-            if minValue > yValue { minValue = yValue }
-        }
-        sanitizeValues()
-    }
-    private func sanitizeValues() {
-        if minValue == maxValue {
-            let avg = (minValue + maxValue) / 2
-            minValue = avg / 1.01
-            maxValue = avg / 0.99
-            
-            if minValue == 0 && maxValue == 0 {
-                minValue = 0
-                maxValue = 1
-            }
-        }
-    }
+  
     
     //MARK: - Draw header
     fileprivate func drawHeader(_ dispatchQueue: DispatchQueue = .init(label: "process_header_queue"),
@@ -168,9 +140,8 @@ extension BarChartView {
         header.frame = CGRect(x: 0, y: 0, width: 40, height: 15)
         header.font = CGFont(UIFont.systemFont(ofSize: 13).fontName as NSString)
         header.fontSize = 13
-        header.string = self.setHeaderText
-        header.foregroundColor = self.labelsColor.cgColor
-        
+        header.string = self.setTextHeaderAxisY
+        header.foregroundColor = self.labelsTextColor.cgColor
         completion(header)
     }
     
@@ -188,8 +159,8 @@ extension BarChartView {
                 line(from: CGPoint(x: self.graphWidth + (showSideLabels ? sideSpace : 0) + padding/2 , y: self.headerSpace) ,
                      to: CGPoint(x: self.graphWidth + (showSideLabels ? sideSpace : 0) + padding/2, y: self.graphHeight),
                      frame: bounds,
-                     color: self.gridColor,
-                     width: self.gridWidth,
+                     color: self.gridLineColor,
+                     width: self.gridLineWidth,
                      dispatchQueue) {  layer in
                     tLayers.addSublayer(layer)
                     drawGroup.leave()
@@ -201,8 +172,8 @@ extension BarChartView {
                 line(from: CGPoint(x: (showSideLabels ? sideSpace : 0) + padding/2, y: self.graphHeight),
                      to: CGPoint(x: self.graphWidth + (showSideLabels ? sideSpace : 0) + padding/2 , y: self.graphHeight),
                      frame: bounds,
-                     color: self.gridColor,
-                     width: self.gridWidth,
+                     color: self.gridLineColor,
+                     width: self.gridLineWidth,
                      dispatchQueue) { layer in
                     tLayers.addSublayer(layer)
                     drawGroup.leave()
@@ -237,8 +208,8 @@ extension BarChartView {
                     self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0) + padding/2, y: self.graphHeight - (hSpace * CGFloat(index))),
                               to: CGPoint(x: self.graphWidth + (showSideLabels ? sideSpace : 0 ) + padding/2, y: self.graphHeight - (hSpace * CGFloat(index))),
                               frame: bounds,
-                              color: self.gridColor,
-                              width: self.gridWidth,
+                              color: self.gridLineColor,
+                              width: self.gridLineWidth,
                               dashPatern: dashPattern) { layer in
                         tLayer.addSublayer(layer)
                         drawGroup.leave()
@@ -247,8 +218,8 @@ extension BarChartView {
                     self.line(from: CGPoint(x: 0 + (showSideLabels ? self.sideSpace : 0) + padding/2, y: self.graphHeight - (hSpace * CGFloat(index))),
                               to: CGPoint(x: self.graphWidth + (showSideLabels ? sideSpace : 0 ) + padding/2, y: self.graphHeight - (hSpace * CGFloat(index))),
                               frame: bounds,
-                              color: self.gridColor,
-                              width: self.gridWidth,
+                              color: self.gridLineColor,
+                              width: self.gridLineWidth,
                               dashPatern: []) { layer in
                         tLayer.addSublayer(layer)
                         drawGroup.leave()
@@ -261,7 +232,7 @@ extension BarChartView {
         }
     }
     
-    //MARK: - Draw vertical Grid
+    //MARK: - Draw vertical lines Grid
     fileprivate func drawVerticalGrid(_ dataSource: BarChartDataSource,
                                       _ dispatchQueue: DispatchQueue = .init(label: "process_vertical_grid_queue"),
                                       _ completion: @escaping(CALayer) -> Void) {
@@ -281,8 +252,8 @@ extension BarChartView {
                     self.line(from: CGPoint(x: startFrom, y: headerSpace),
                               to: CGPoint(x: startFrom, y: self.graphHeight ),
                               frame: bounds,
-                              color: self.gridColor,
-                              width: self.gridWidth,
+                              color: self.gridLineColor,
+                              width: self.gridLineWidth,
                               dashPatern: dashPattern) { layer in
                         tLayer.addSublayer(layer)
                         drawGroup.leave()
@@ -291,8 +262,8 @@ extension BarChartView {
                     self.line(from: CGPoint(x: startFrom, y: headerSpace),
                               to: CGPoint(x: startFrom, y: self.graphHeight ),
                               frame: bounds,
-                              color: self.gridColor,
-                              width: self.gridWidth,
+                              color: self.gridLineColor,
+                              width: self.gridLineWidth,
                               dashPatern: []) { layer in
                         tLayer.addSublayer(layer)
                         drawGroup.leave()
@@ -324,14 +295,15 @@ extension BarChartView {
                 guard let self = self else { return }
                 for index in 0..<yValue.count  {
                     let label = CenterTextLayer()
-                    label.frame = .init(x: 0, y: 0, width: self.sideSpace, height: 15)
+                    label.frame = .init(x: 0, y: 0, width: self.sideSpace, height: 40)
                     let xPos = self.sideSpace / 2
                     label.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                     label.position = CGPoint(x: xPos, y:  self.graphHeight - (hSpace * CGFloat(index))  )
                     label.string = "\(yValue[index])"
                     label.font = CGFont(UIFont.systemFont(ofSize: 8).fontName as NSString)
                     label.fontSize = 10
-                    label.foregroundColor = self.labelsColor.cgColor
+                    label.isWrapped = true
+                    label.foregroundColor = self.labelsTextColor.cgColor
                     tLayers.addSublayer(label)
                 }
                 completion(tLayers)
@@ -347,7 +319,6 @@ extension BarChartView {
             guard let self = self else { return }
             let tLayer = CALayer()
             var values: [String] = []
-            
             for index in 0..<dataSource.numberOfVerticalLines(in: self) {
                  let barChart = dataSource.numberOfVertical(in: self , verticalViewAt: index)
                  values.append(barChart)
@@ -366,17 +337,17 @@ extension BarChartView {
                     let font = UIFont.systemFont(ofSize: 8.0)
                     let fontName = font.fontName as NSString
                     label.font = CGFont(fontName)
+                    label.isWrapped = true
                     label.fontSize = 10
-                    label.foregroundColor = self.labelsColor.cgColor
+                    label.foregroundColor = self.labelsTextColor.cgColor
                     label.frame = .init(origin: CGPoint(x: xPos  , y: yPos ),
-                                        size: CGSize(width: vSpace, height: self.bottomSpace))
+                                        size: CGSize(width: vSpace , height: self.bottomSpace))
                     tLayer.addSublayer(label)
                 }
                 completion(tLayer)
             }
         }
     }
-    
     //MARK: - Draw Bar Chart
     fileprivate func drawBarChart(dataSource: BarChartDataSource,
                                   canvas rect: CGRect = .zero,
@@ -392,17 +363,18 @@ extension BarChartView {
             guard let maxValue = yValue.last else { return }
             let step = maxValue / yValue.count
             let numberOfGrids = min(yValue.count, yValue.count)
-            let hSpace = (graphHeight - headerSpace) / CGFloat(numberOfGrids)
+            let hSpace = (graphHeight - headerSpace) / CGFloat(numberOfGrids) // calculate height for bar chart
             let tLayer = CALayer()
             let numberOfItem = dataSource.numberOfItem(in: self)
-            let barWidth = self.graphWidth / CGFloat(numberOfItem)
+            let barWidth = self.graphWidth / CGFloat(numberOfItem) // calculate bar width
             self.vSpace = barWidth
             axisXPoint = []
+            // start draw bar chart
             for index in 0..<numberOfItem {
                 let xPos = rect.origin.x + (barWidth * CGFloat(index) ) + padding/2
                 let yPos =  (dataSource.barChart(self , yValueAt: index) * hSpace / CGFloat(step))
                 let shapeLayer = CAShapeLayer()
-                let rect = CGRect(x: xPos + 1 , y: self.graphHeight, width: barWidth - 2, height: -yPos)
+                let rect = CGRect(x: xPos + 1 , y: self.graphHeight, width: barWidth - 2, height: yValue.count > 2 ?  -(yPos >= 1 ? yPos : (yPos > 0 ? 1 : 0)) : 0  )
                 shapeLayer.backgroundColor = self.barChartColor.cgColor
                 shapeLayer.strokeColor = UIColor.red.cgColor
                 shapeLayer.frame = rect
@@ -444,17 +416,17 @@ extension BarChartView {
             labelValue?.foregroundColor = self.showDetailForegroundColor.cgColor
             tLayer.addSublayer(labelValue ?? CenterTextLayer())
             
+            // draw triangle
             let path = UIBezierPath()
             path.move(to: CGPoint(x: (showSideLabels ? sideSpace : 0) + padding/2, y: self.graphHeight + (showBottomLabels ? bottomSpace : 0) + 10 ))
             path.addLine(to: CGPoint(x: (showSideLabels ? sideSpace : 0 ) + 6 + padding/2, y: self.graphHeight + (showBottomLabels ? bottomSpace : 0)))
             path.addLine(to: CGPoint(x: (showSideLabels ? sideSpace : 0) + 12 + padding/2 , y: self.graphHeight + (showBottomLabels ? bottomSpace : 0) + 10))
-             triangle = CAShapeLayer()
+            triangle = CAShapeLayer()
             triangle?.path = path.cgPath
             triangle?.fillColor = self.bottomShowDetailColor.cgColor
             tLayer.addSublayer(triangle ?? CAShapeLayer())
             completion(tLayer)
         }
-        
     }
     fileprivate func drawBarVerticalPoint(_ dispatchQueue: DispatchQueue = .init(label: "process_bar_vertical_queue"),
                                           _ completion: @escaping(CALayer) -> Void) {
@@ -465,13 +437,14 @@ extension BarChartView {
             let tLayer = CALayer()
             self.line(from: CGPoint(x: startFrom, y: headerSpace),
                       to: CGPoint(x: startFrom, y: self.graphHeight + (showBottomLabels ? bottomSpace : 0)),
-                      frame: CGRect(x: 0, y: 0, width: self.barVerticalPointWidth, height: self.graphHeight + (showBottomLabels ? bottomSpace : 0)),
-                      color: self.barVerticalPointColor,
-                      width: self.barVerticalPointWidth,
+                      frame: CGRect(x: 0, y: 0, width: self.barVerticalIndicatorWidth, height: self.graphHeight + (showBottomLabels ? bottomSpace : 0)),
+                      color: self.barVerticalIndicatorColor,
+                      width: self.barVerticalIndicatorWidth,
                       dashPatern: [7,5]) { layer in
                 tLayer.addSublayer(layer)
             }
             completion(tLayer)
         }
     }
+   
 }

@@ -26,15 +26,18 @@ public class CenterTextLayer: CATextLayer {
     }
     
     public override func draw(in ctx: CGContext) {
+       
         let multiplier = CGFloat(1)
         let yDiff = (bounds.size.height - ((string as? NSAttributedString)?.size().height ?? fontSize)) / 2 * multiplier
         ctx.saveGState()
+        
         ctx.translateBy(x: 0.0, y: yDiff)
         super.draw(in: ctx)
         ctx.restoreGState()
     }
     
     fileprivate func setup() {
+        isWrapped = true
         alignmentMode = .center
         allowsEdgeAntialiasing = true
         contentsScale = UIScreen.main.scale

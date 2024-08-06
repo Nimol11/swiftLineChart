@@ -17,7 +17,7 @@ let lineChart = LineChartView(frame: CGRect(x: 0, y: 0, width: 200, height: 300)
 let barChart = BarChartView(frame: CGRect(x: 0, y:0 , width: 200, height: 300))
 ```
 :key: To initialize a line chart using storyboard 
- <br> <b>Line Chart </b>
+ <br> <b>Line Chart </b> <br>
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.32%20in%20the%20morning.png?raw=true" width = 400px />
 <br> Bar Chart <br>
 <img src = "https://github.com/Nimol11/video/blob/main/folder/Screenshot%202024-08-06%20at%208.36.01%20in%20the%20morning.png?raw=true" width = 400px />

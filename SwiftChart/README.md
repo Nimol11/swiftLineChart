@@ -20,7 +20,7 @@ let barChart = BarChartView(frame: CGRect(x: 0, y:0 , width: 200, height: 300))
  <br> <b>Line Chart </b> <br>
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.32%20in%20the%20morning.png?raw=true" width = 400px />
 <br> Bar Chart <br>
-<img src = "https://github.com/Nimol11/video/blob/main/folder/Screenshot%202024-08-06%20at%208.36.01%20in%20the%20morning.png?raw=true" width = 400px />
+<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Barchart.png?raw=true" width = 400px />
 
 :key: Need to reload chart data  after set data 
 
@@ -146,5 +146,5 @@ var data: [ChartData] = [
 
 <img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/Screenshot%202024-07-25%20at%208.49.53%20in%20the%20morning.png?raw=true" width= 400px />
 <br> 
-<img src = "https://github.com/Nimol11/video/blob/main/folder/Simulator%20Screenshot%20-%20iPhone%2015%20Pro%20Max%20-%202024-08-06%20at%2013.19.16.png?raw=true" width=400px />
+<img src = "https://github.com/Nimol11/swiftLineChart/blob/main/image/BarChartResult.png?raw=true" width=400px />
 

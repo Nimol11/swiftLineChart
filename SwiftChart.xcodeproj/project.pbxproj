@@ -15,6 +15,8 @@
 		524CCA432C588DAD00D4D8B2 /* BarChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524CCA422C588DAD00D4D8B2 /* BarChartDataSource.swift */; };
 		524CCA462C588E1400D4D8B2 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524CCA452C588E1400D4D8B2 /* UIViewExtension.swift */; };
 		52C2DAD12C61B38900214627 /* ChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2DAD02C61B38900214627 /* ChartModel.swift */; };
+		52C2DAD72C61FC2900214627 /* Barchart.png in Resources */ = {isa = PBXBuildFile; fileRef = 52C2DAD62C61FC2900214627 /* Barchart.png */; };
+		52C2DADB2C61FC5B00214627 /* BarChartResult.png in Resources */ = {isa = PBXBuildFile; fileRef = 52C2DADA2C61FC5B00214627 /* BarChartResult.png */; };
 		52C860062C59F39D00071FE8 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C860052C59F39D00071FE8 /* BarChartViewController.swift */; };
 		52C860082C59F4D300071FE8 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C860072C59F4D300071FE8 /* ArrayExtension.swift */; };
 		52E803B92C51019B0001D916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E803B82C51019B0001D916 /* AppDelegate.swift */; };
@@ -41,6 +43,8 @@
 		524CCA422C588DAD00D4D8B2 /* BarChartDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDataSource.swift; sourceTree = "<group>"; };
 		524CCA452C588E1400D4D8B2 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		52C2DAD02C61B38900214627 /* ChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModel.swift; sourceTree = "<group>"; };
+		52C2DAD62C61FC2900214627 /* Barchart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Barchart.png; sourceTree = "<group>"; };
+		52C2DADA2C61FC5B00214627 /* BarChartResult.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BarChartResult.png; sourceTree = "<group>"; };
 		52C860052C59F39D00071FE8 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
 		52C860072C59F4D300071FE8 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		52E803B52C51019B0001D916 /* SwiftChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +78,8 @@
 		520A5EA12C51E68E000E3A8D /* image */ = {
 			isa = PBXGroup;
 			children = (
+				52C2DAD62C61FC2900214627 /* Barchart.png */,
+				52C2DADA2C61FC5B00214627 /* BarChartResult.png */,
 				520A5EA22C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png */,
 				520A5EA42C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png */,
 			);
@@ -243,8 +249,10 @@
 				52E803DC2C510B900001D916 /* README.md in Resources */,
 				52E803C22C51019D0001D916 /* Assets.xcassets in Resources */,
 				520A5EA52C51E6C7000E3A8D /* Screenshot 2024-07-25 at 8.49.53 in the morning.png in Resources */,
+				52C2DAD72C61FC2900214627 /* Barchart.png in Resources */,
 				52E803C52C51019D0001D916 /* Base in Resources */,
 				52E803C02C51019B0001D916 /* Base in Resources */,
+				52C2DADB2C61FC5B00214627 /* BarChartResult.png in Resources */,
 				520A5EA32C51E6B2000E3A8D /* Screenshot 2024-07-25 at 8.49.32 in the morning.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -32,7 +32,7 @@ barChart.reloadData()
 ```
 
 :eyes: property 
-<br> Line Chart </b>
+<br> <b> Line Chart  </b> </b>
 ```swift
 lineChart.gridWidth = 0.3
 lineChart.lineWidth = 2
@@ -53,7 +53,7 @@ lineChart.delegate = self
 lineChart.lineWidth = 1 
 
 ```
-<br> Bar Chart  </b>
+<br> <b> Bar Chart </b> <br>
 ```swift 
 barChartView.dataSource = self
 barChartView.delegate = self
@@ -102,7 +102,7 @@ var data: [ChartData] = [
 ```
 
 ### :bulb: DataSource 
-<br> Line Chart  </b>
+<br> <b> Line Chart  </b> <br>
 ```swift 
     func numberOfItems(in lineChart: LineChartView) -> Int
     func numberOfVerticalLines(in lineChart: LineChartView) -> Int
@@ -115,7 +115,7 @@ var data: [ChartData] = [
 
 ```
 
-<br> Bar chart  </b>
+<br> <b> Bar chart  </b> <br>
 ```swift 
     func numberOfItem(in barChart: BarChartView) -> Int
     func barChart(_ barChart: BarChartView, xValueAt index: Int) -> String
@@ -128,7 +128,7 @@ var data: [ChartData] = [
 ``` 
 ### :bulb: Delegate 
 
-<br> Line Chart </b>
+<br> <b> Line Chart </b> <br>
 ```swift 
 
    @objc optional func lineChartDidStartRender(_ lineChart: LineChartView)
@@ -136,7 +136,7 @@ var data: [ChartData] = [
    @objc optional func lineChartDidFailRender(_ lineChar: LineChartView)
 
 ```
-<br> Bar Chart </b>
+<br> <b> Bar Chart </b> <br>
 ```swift 
     @objc optional func barChartDidStartRender(_ barChart: BarChartView)
     @objc optional func barChartDidFinishRender(_ barChart: BarChartView)
